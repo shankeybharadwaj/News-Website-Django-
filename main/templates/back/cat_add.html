@@ -1,0 +1,78 @@
+
+
+{% extends 'back/master.html' %}
+
+{% load static %}
+
+{% block mainblock %}
+
+<!-- Datatables Header -->
+<div class="content-header">
+    <div class="header-section">
+        <h1>
+            <i class="fa fa-table"></i>Add Categories<br><small>Add, Edit and Delete the data here!!</small>
+        </h1>
+    </div>
+</div>
+<ul class="breadcrumb breadcrumb-top">
+    <li>Category</li>
+    <li><a href="/panel/category/add">Add</a></li>
+</ul>
+<!-- END Datatables Header -->
+
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- Basic Form Elements Block -->
+        <div class="block">
+            <!-- Basic Form Elements Title -->
+            <div class="block-title">
+                
+                <h2><strong>Add</strong> Category</h2>
+            </div>
+            <!-- END Form Elements Title -->
+
+            <!-- Basic Form Elements Content -->
+            <form action="{% url 'cat_add' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" >
+                {% csrf_token %}    
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Category Name">
+                    </div>
+
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i> Submit</button>
+                </div>
+
+                
+
+                
+                
+                
+            </form>
+            <!-- END Basic Form Elements Content -->
+        </div>
+        <!-- END Basic Form Elements Block -->
+    
+    </div>
+    
+    </div>
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block footerblock_separate_javascript %}
+
+    <!-- Load and execute javascript code used only in this page -->
+    <script src="{% static 'back/js/pages/tablesDatatables.js' %}"></script>
+    <script>$(function(){ TablesDatatables.init(); });</script>
+
+{% endblock %}
+
+
+
+

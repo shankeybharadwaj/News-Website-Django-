@@ -1,0 +1,199 @@
+{% extends 'front/master.html' %}
+
+{% load static %}
+
+{%block headblock%}
+<title>{{site.name}} | Home </title>	<!--for alt.method in views .py -->
+{%endblock%}
+  
+
+{% block mainblock %}
+
+<!-- Feature post -->
+<section class="bg0">
+	<div class="row m-rl-0 justify-content-center">
+
+		{% for last in lastnews %}
+		<div class="col-md-4 p-rl-1 p-b-2">
+			<div class="bg-img1 size-a-11 how1 pos-relative" style="background-image: url({{last.picurl}});">
+				<a href="{% url 'news_detail' pk=last.pk %}" class="dis-block how1-child1 trans-03"></a>
+
+				<div class="flex-col-e-s s-full p-rl-25 p-tb-18">
+					<a href="{% url 'news_detail' pk=last.pk %}" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+						{{last.catname}}
+					</a>
+
+					<h3 class="how1-child2 m-t-14 m-b-10">
+						<a href="{% url 'news_detail' pk=last.pk %}" class="f1-l-1 cl0 hov-cl10 trans-03 respon1">
+							{{last.name}}
+						</a>
+					</h3>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		
+	</div>
+</section>
+
+<!-- Post -->
+<section class="post bg0 p-t-85">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-12 col-lg-12">
+				<div class="p-r-10 p-rl-0-sr991 p-b-20">
+					
+					{% for i in cat %}
+					{% if i.count > 0 %}
+					<!-- Life Style  -->
+					<div class="p-b-25 m-r--10 m-r-0-sr991">
+						<div class="how2 how2-cl5 flex-s-c m-r-10 m-r-0-sr991">
+							<h3 class="f1-m-2 cl17 tab01-title">
+								{{i.name}}
+							</h3>
+						</div>
+
+						<div class="row p-t-35">
+							<div class="col-sm-6 p-r-25 p-r-15-sr991">
+								{% for j in news %}
+								{% if j.ocatid == i.pk %} 
+								<!-- Item post -->	
+								<div class="flex-wr-sb-s m-b-30">
+									<a href="{% url 'news_detail' pk=j.pk %}" class="size-w-1 wrap-pic-w hov1 trans-03">
+										<img style="display:inline-block; height:100px;width:110px;" src="{{j.picurl}}" alt="IMG">
+									</a>
+
+									<div class="size-w-2">
+										<h5 class="p-b-5">
+											<a href="{% url 'news_detail' pk=j.pk %}" class="f1-s-5 cl3 hov-cl10 trans-03">
+												{{j.name}}
+											</a>
+										</h5>
+
+										<span class="cl8">
+											<a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
+												{{j.catname}}
+											</a>
+
+											<span class="f1-s-3 m-rl-3">
+												-
+											</span>
+
+											<span class="f1-s-3">
+												{{j.date}} | {{j.time}}
+											</span>
+										</span>
+									</div>
+								</div>
+								{% endif %}
+								{% endfor %}
+								
+								
+							</div>
+
+							<div class="col-sm-6 p-r-25 p-r-15-sr991">
+								<!-- Item post -->	
+								{% for pop in popular %}
+								{% if pop.ocatid == i.pk %}
+								{% if pop.show > 0 %}
+								<div class="flex-wr-sb-s m-b-30">
+									<a href="{% url 'news_detail' pk=pop.pk %}" class="size-w-1 wrap-pic-w hov1 trans-03">
+										<img style="display:inline-block; height:100px;width:110px;" src="{{pop.picurl}}" alt="IMG">
+									</a>
+
+									<div class="size-w-2">
+										<h5 class="p-b-5">
+											<a href="{% url 'news_detail' pk=pop.pk %}" class="f1-s-5 cl3 hov-cl10 trans-03">
+												{{pop.name}}
+											</a>
+										</h5>
+
+										<span class="cl8">
+											<a href="#" class="f1-s-6 cl8 hov-cl10 trans-03">
+												{{pop.catname}}
+											</a>
+
+											<span class="f1-s-3 m-rl-3">
+												-
+											</span>
+
+											<span class="f1-s-3">
+												{{pop.date}}
+											</span>
+										</span>
+									</div>
+								</div>
+								{% endif %}
+								{% endif %}
+								{% endfor %}
+								
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+
+		
+		</div>
+	</div>
+</section>
+
+
+
+<!-- Latest -->
+<section class="bg0 p-t-60 p-b-40">
+	<div class="container">
+		<div class="how2 how2-cl4 flex-s-c">
+			<h3 class="f1-m-2 cl3 tab01-title">
+				Latest News
+			</h3>
+		</div>
+
+		<div class="row p-t-35">
+
+			{% for i in news %}
+			<div class="col-sm-6 col-md-4">
+				<!-- Item latest -->	
+				<div class="m-b-45">
+					
+					<a href="{% url 'news_detail' pk=i.pk %}" class="wrap-pic-w hov1 trans-03">
+						<img style="display: inline-block; width:320px;height:250px;" src="{{i.picurl}}" alt="IMG">
+					</a>
+
+					<div class="p-t-16">
+						<h5 class="p-b-5">
+							
+							<a href="{% url 'news_detail' pk=i.pk %}" class="f1-m-3 cl2 hov-cl10 trans-03">	
+								{{i.name}}
+							</a>
+						</h5>
+						
+						<p>{{i.short_txt|safe}}</p>
+						<br/>
+						
+
+						<span class="cl8">
+							<a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
+								by {{i.writer}}
+							</a>
+
+							<span class="f1-s-3 m-rl-3">
+								-
+							</span>
+
+							<span class="f1-s-3">
+								{{i.date}}
+							</span>
+						</span>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+
+		</div>
+	</div>
+</section>
+
+{% endblock %}
