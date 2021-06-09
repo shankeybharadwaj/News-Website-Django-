@@ -8,6 +8,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage     # for uploading facility
 from django.contrib.auth.models import User, Group, Permission
 import string
+from ipware import get_client_ip
+from ip2geotools.databases.noncommercial import DbIpCity
+from blacklist.models import BlackList
 
 # Create your views here.
 
@@ -79,6 +82,19 @@ def mylogin(request):
             user1 = authenticate(username=utxt, password=ptxt)  # if credentials incorrect, returns None to user1
 
             if user1 != None :
+
+                ip, is_routable = get_client_ip(request)
+
+                if ip is None :
+
+                    ip = "0.0.0.0"
+
+                b = len(BlackList.objects.filter(ip=ip))
+
+                if b != 0 :
+                    msg = "Your ip Blocked By Admin"
+                    return render(request, 'front/msgbox.html', {'msg':msg})
+
                 login(request,user1)
                 return redirect('panel')
 
@@ -131,8 +147,24 @@ def myregister(request):
 
         
         if len(User.objects.filter(username=uname))==0 and len(User.objects.filter(password=password1))==0:
-            new_user = User.objects.create_user(username=uname,email=email,password=password1)
-            b = Manager(name=name,utxt=uname,email=email)
+            
+            ip, is_routable = get_client_ip(request)
+
+            if ip is None :
+
+                ip = "0.0.0.0"
+
+            try :
+
+                response = DbIpCity.get(ip,api_key='free')
+                country = response.country + " | " + response.city
+
+            except:
+
+                country = "Unknown"
+
+            user = User.objects.create_user(username=uname,email=email,password=password1)
+            b = Manager(name=name,utxt=uname,email=email,ip=ip,country=country)
             b.save()
         
 

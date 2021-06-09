@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'',include('subcat.urls')),
     url(r'',include('contactform.urls')),
     url(r'',include('manager.urls')),
+    url(r'',include('blacklist.urls')),
 ]
 
 # This code here makes url for all the static and media files automatically, used in upload facility
